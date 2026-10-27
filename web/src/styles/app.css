@@ -1,0 +1,124 @@
+/* lethe's own layout, on top of Slag tokens + workbench. Values come from the
+ * tokens only; extra sizes are still Fibonacci. */
+
+:root {
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "Geist Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --list: 23.5625rem; /* 377 */
+}
+
+/* No activity bar: projects, notes, reader. */
+.wb.lethe {
+  grid-template-columns: var(--sidebar) minmax(0, 1fr);
+  grid-template-areas:
+    "title   title"
+    "sidebar main"
+    "status  status";
+}
+
+.wb-titlebar .brand { color: var(--fg); }
+.wb-titlebar .input { height: var(--space-5); padding-block: 0; }
+.check { display: flex; align-items: center; justify-content: flex-end; gap: var(--space-2); color: var(--fg-muted); cursor: pointer; }
+.check input { accent-color: var(--fg); margin: 0; }
+
+.ellipsis { overflow: hidden; text-overflow: ellipsis; }
+.dot.waiting { color: var(--accent); flex: none; }
+
+.lethe-main {
+  grid-template-rows: minmax(0, 1fr);
+  grid-template-columns: var(--list) minmax(0, 1fr);
+}
+
+.list-pane {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-right: var(--hairline);
+  background: var(--surface);
+}
+
+.empty { padding: var(--space-4); color: var(--fg-muted); }
+
+.note-list { list-style: none; margin: 0; padding: 0; max-width: none; overflow: auto; }
+.note-list li { margin: 0; padding: 0; }
+.note-list button {
+  display: grid;
+  gap: var(--space-1);
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  border: 0;
+  border-bottom: var(--hairline);
+  background: none;
+  color: var(--fg);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.note-list button:hover { background: var(--layer-2); }
+.note-list button[aria-selected="true"] { background: var(--selection); }
+.note-title { font-weight: var(--weight-medium); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.note-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+}
+.status--waiting { color: var(--accent); }
+.status--picked_up { color: var(--success); }
+
+.reader { min-width: 0; min-height: 0; overflow: auto; background: var(--surface); }
+
+.reader-head { padding: var(--space-5) var(--space-5) var(--space-4); border-bottom: var(--hairline); }
+.reader-title { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-4); }
+.reader-title h1 { margin: 0; font-size: var(--text-lead); font-weight: var(--weight-medium); line-height: var(--leading-normal); }
+.actions { display: flex; gap: var(--space-2); flex: none; }
+
+.facts {
+  display: grid;
+  grid-template-columns: var(--space-8) minmax(0, 1fr);
+  gap: var(--space-1) var(--space-4);
+  margin: var(--space-4) 0 0;
+  font-size: var(--text-body);
+}
+.facts dt {
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  line-height: var(--leading-prose);
+}
+.facts dd { margin: 0; font-family: var(--font-mono); font-size: var(--text-label); line-height: var(--leading-prose); }
+.facts .path { color: var(--fg-muted); overflow-wrap: anywhere; }
+
+/* The note itself, at workbench size. */
+.note-body { padding: var(--space-4) var(--space-5) var(--space-7); max-width: 55rem; line-height: var(--leading-prose); }
+.note-body h1, .note-body h2, .note-body h3, .note-body h4 {
+  margin: var(--space-5) 0 var(--space-2);
+  font-size: var(--text-body);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-normal);
+  line-height: var(--leading-normal);
+}
+.note-body h1 { font-size: var(--text-lead); }
+.note-body > :first-child { margin-top: 0; }
+.note-body p, .note-body ul, .note-body ol { margin: 0 0 var(--space-3); max-width: none; }
+.note-body ul, .note-body ol { padding-left: var(--space-5); }
+.note-body li { margin: 0 0 var(--space-1); }
+.note-body code { font-size: var(--text-label); background: var(--layer-1); padding: 0 var(--space-1); border-radius: var(--radius-sm); }
+.note-body pre { margin: 0 0 var(--space-3); padding: var(--space-3); overflow: auto; background: var(--layer-1); border-radius: var(--radius-sm); }
+.note-body pre code { padding: 0; background: none; }
+.note-body table { margin: 0 0 var(--space-3); border-collapse: collapse; }
+.note-body th, .note-body td { border: var(--hairline); text-align: left; }
+.note-body a { color: var(--fg); }
+
+.wb-status .error { color: var(--danger); }
+
+@media (max-width: 48rem) {
+  .wb.lethe { grid-template-columns: minmax(0, 1fr); grid-template-areas: "title" "main" "status"; }
+  .lethe-main { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 13.0625rem) minmax(0, 1fr); }
+  .list-pane { border-right: 0; border-bottom: var(--hairline); }
+  .reader-title { flex-direction: column; }
+}

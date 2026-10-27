@@ -1,0 +1,12 @@
+# Rust build output
+target/
+
+# The page's build output and packages
+web/dist/
+web/node_modules/
+
+# Scratch folders the smoke runs create
+sandbox/
+
+.DS_Store
+web/*.tsbuildinfo
